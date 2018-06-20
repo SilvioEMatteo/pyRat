@@ -33,6 +33,8 @@ class BetaSensoreMovimento(QDialog):
         self.esitoMovimento=False
         self.flagInizio=False
         self.cont=True
+        self.tempoGlobaleInizioMovimento=''
+        self.tempoGlobaleFineMovimento=''
 
     def statusBottoneCatturaMovimento(self,status):
         if status:
@@ -119,6 +121,7 @@ class BetaSensoreMovimento(QDialog):
                     self.tempoCompletoDiDataEOra = ''
                     self.prendiTempoInizioMotion()
                     self.lineaInizioMovimento.setText(self.tempoCompletoDiDataEOra)
+                    self.tempoGlobaleInizioMovimento=self.tempoCompletoDiDataEOra
                     self.cont=False
             else:
                 if self.flagInizio:
@@ -126,10 +129,12 @@ class BetaSensoreMovimento(QDialog):
                     self.tempoCompletoDiDataEOra = ''
                     self.prendiTempoInizioMotion()
                     self.lineaFineMovimento.setText(self.tempoCompletoDiDataEOra)
+                    self.tempoGlobaleFineMovimento=self.tempoCompletoDiDataEOra
                     self.tempoDurata = self.tempoFine - self.tempoInizio
                     self.lineaDurataMovimento.setText(str(self.tempoDurata))
                     self.flagInizio=False
                     self.cont=True
+                    #RICORDA: se la durata è minore di N secondi allora non tenerla in considerazione(Da stabilire)
 
         else:
 
