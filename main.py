@@ -2,7 +2,6 @@ import sys
 import cv2
 import datetime
 import time
-import threading
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
