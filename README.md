@@ -1,2 +1,3 @@
 # pyRat
-University thesis
+# University thesis
+Developer of a software to tracking a rat.
