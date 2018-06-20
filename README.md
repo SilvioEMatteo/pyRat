@@ -1,3 +1,3 @@
 # pyRat
 # University thesis
-Develope of a software that tracks a rat.
+Develope of a software that tracks a rat. Matteo
