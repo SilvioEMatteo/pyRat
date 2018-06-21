@@ -4,7 +4,7 @@ import datetime
 import time
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QFileDialog
 from PyQt5.uic import loadUi
 
 
@@ -35,6 +35,25 @@ class BetaSensoreMovimento(QDialog):
         self.cont=True
         self.tempoGlobaleInizioMovimento=''
         self.tempoGlobaleFineMovimento=''
+        self.bottoneCaricaVideo.clicked.connect(self.importaVideo)
+
+    def importaVideo(self):
+        nomeFile,filtro=QFileDialog.getOpenFileName(self,'Open File','C:\\','Files (*.avi)')
+        if nomeFile:
+            self.caricaVideo(nomeFile)
+        else:
+            QMessageBox.information(self,'Errore','Errore caricamento video.')
+
+    def caricaVideo(self,video):
+        self.bottoneAvviaWebcam.setEnabled(False)
+        self.bottoneStopWebcam.setEnabled(True)
+        self.cattura=cv2.VideoCapture(video)
+        self.cattura.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        self.cattura.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        #self.visualizzaFrame(self.cattura,1)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.aggiornaFrame)
+        self.timer.start(30)
 
     def statusBottoneCatturaMovimento(self,status):
         if status:
@@ -91,6 +110,7 @@ class BetaSensoreMovimento(QDialog):
     def stopWebcam(self):
         self.bottoneStopWebcam.setEnabled(False)
         self.bottoneAvviaWebcam.setEnabled(True)
+        self.bottoneCaricaVideo.setEnabled(True)
         self.timer.stop()
         self.labelLiveCam.clear()
         self.labelPrimoFrame.clear()
@@ -98,6 +118,7 @@ class BetaSensoreMovimento(QDialog):
     def avviaWebcam(self):
         self.bottoneAvviaWebcam.setEnabled(False)
         self.bottoneStopWebcam.setEnabled(True)
+        self.bottoneCaricaVideo.setEnabled(False)
         self.cattura= cv2.VideoCapture(1)
         self.cattura.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         self.cattura.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
